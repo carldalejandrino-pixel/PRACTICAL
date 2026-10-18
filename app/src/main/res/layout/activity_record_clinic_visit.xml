@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Record Clinic Visit"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Student ID" />
+
+        <EditText
+            android:id="@+id/etVisitStudentId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter registered student ID"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Visit Date"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etVisitDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select date"
+            android:focusable="false"
+            android:clickable="true"
+            android:singleLine="true"
+            android:drawableEnd="@android:drawable/ic_menu_my_calendar" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Visit Time"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etVisitTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select time"
+            android:focusable="false"
+            android:clickable="true"
+            android:singleLine="true"
+            android:drawableEnd="@android:drawable/ic_lock_idle_alarm" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Symptoms / Reason for Visit"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etSymptoms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Describe the reason for the visit"
+            android:inputType="textCapSentences|textMultiLine"
+            android:minLines="2"
+            android:gravity="top" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Temperature (°C)"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etTemperature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Example: 36.5"
+            android:inputType="numberDecimal"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Treatment Given"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etTreatment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Describe treatment or assistance"
+            android:inputType="textCapSentences|textMultiLine"
+            android:minLines="2"
+            android:gravity="top" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Additional Notes"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/etVisitNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Other relevant information"
+            android:inputType="textCapSentences|textMultiLine"
+            android:minLines="2"
+            android:gravity="top" />
+
+        <Button
+            android:id="@+id/btnSaveVisit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Clinic Visit"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnLoadVisitHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Student Visit History" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Previous Clinic Visits"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvVisitHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter a student ID and select View Student Visit History."
+            android:textSize="16sp"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/btnVisitBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+</ScrollView>
