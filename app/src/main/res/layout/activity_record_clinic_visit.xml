@@ -2,27 +2,51 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="#F4F7FB">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:fontFamily="@font/nimbus_roman">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Record Clinic Visit"
-            android:textSize="24sp"
+            android:text="MCSC"
+            android:textSize="30sp"
             android:textStyle="bold"
+            android:textColor="#173B6C"
             android:gravity="center"
-            android:layout_marginBottom="20dp" />
+            android:padding="8dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Student ID" />
+            android:text="RECORD CLINIC VISIT"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#173B6C"
+            android:gravity="center"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Record the details of a student's clinic visit."
+            android:textSize="15sp"
+            android:textColor="#333333"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Student ID"
+            android:textColor="#173B6C"
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/etVisitStudentId"
@@ -30,12 +54,15 @@
             android:layout_height="wrap_content"
             android:hint="Enter registered student ID"
             android:inputType="text"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Visit Date"
+            android:textColor="#173B6C"
             android:layout_marginTop="12dp" />
 
         <EditText
@@ -46,12 +73,15 @@
             android:focusable="false"
             android:clickable="true"
             android:singleLine="true"
-            android:drawableEnd="@android:drawable/ic_menu_my_calendar" />
+            android:drawableEnd="@android:drawable/ic_menu_my_calendar"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Visit Time"
+            android:textColor="#173B6C"
             android:layout_marginTop="12dp" />
 
         <EditText
@@ -62,12 +92,15 @@
             android:focusable="false"
             android:clickable="true"
             android:singleLine="true"
-            android:drawableEnd="@android:drawable/ic_lock_idle_alarm" />
+            android:drawableEnd="@android:drawable/ic_lock_idle_alarm"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Symptoms / Reason for Visit"
+            android:textColor="#173B6C"
             android:layout_marginTop="12dp" />
 
         <EditText
@@ -77,12 +110,15 @@
             android:hint="Describe the reason for the visit"
             android:inputType="textCapSentences|textMultiLine"
             android:minLines="2"
-            android:gravity="top" />
+            android:gravity="top"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Temperature (°C)"
+            android:textColor="#173B6C"
             android:layout_marginTop="12dp" />
 
         <EditText
@@ -91,12 +127,15 @@
             android:layout_height="wrap_content"
             android:hint="Example: 36.5"
             android:inputType="numberDecimal"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Treatment Given"
+            android:textColor="#173B6C"
             android:layout_marginTop="12dp" />
 
         <EditText
@@ -106,12 +145,15 @@
             android:hint="Describe treatment or assistance"
             android:inputType="textCapSentences|textMultiLine"
             android:minLines="2"
-            android:gravity="top" />
+            android:gravity="top"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Additional Notes"
+            android:textColor="#173B6C"
             android:layout_marginTop="12dp" />
 
         <EditText
@@ -121,20 +163,35 @@
             android:hint="Other relevant information"
             android:inputType="textCapSentences|textMultiLine"
             android:minLines="2"
-            android:gravity="top" />
+            android:gravity="top"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <Button
             android:id="@+id/btnSaveVisit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#173B6C"
             android:text="Save Clinic Visit"
-            android:layout_marginTop="16dp" />
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/nimbus_roman" />
 
         <Button
             android:id="@+id/btnLoadVisitHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View Student Visit History" />
+            android:minHeight="52dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#173B6C"
+            android:text="View Student Visit History"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/nimbus_roman" />
 
         <TextView
             android:layout_width="match_parent"
@@ -142,6 +199,7 @@
             android:text="Previous Clinic Visits"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:textColor="#173B6C"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="8dp" />
 
@@ -151,14 +209,24 @@
             android:layout_height="wrap_content"
             android:text="Enter a student ID and select View Student Visit History."
             android:textSize="16sp"
-            android:padding="8dp" />
+            android:textColor="#333333"
+            android:padding="12dp"
+            android:background="#FFFFFF"
+            android:lineSpacingExtra="4dp" />
 
         <Button
             android:id="@+id/btnVisitBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#173B6C"
             android:text="Back"
-            android:layout_marginTop="16dp" />
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/nimbus_roman" />
 
     </LinearLayout>
 </ScrollView>

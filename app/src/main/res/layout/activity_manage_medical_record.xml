@@ -2,27 +2,51 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="#F4F7FB">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:fontFamily="@font/nimbus_roman">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Manage Medical Record"
-            android:textSize="24sp"
+            android:text="MCSC"
+            android:textSize="30sp"
             android:textStyle="bold"
+            android:textColor="#173B6C"
             android:gravity="center"
-            android:layout_marginBottom="20dp" />
+            android:padding="8dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Student ID" />
+            android:text="MANAGE MEDICAL RECORD"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#173B6C"
+            android:gravity="center"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter a registered student's ID to manage their medical information."
+            android:textSize="15sp"
+            android:textColor="#333333"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Student ID"
+            android:textColor="#173B6C"
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/etMedicalStudentId"
@@ -30,18 +54,28 @@
             android:layout_height="wrap_content"
             android:hint="Enter registered student ID"
             android:inputType="text"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <Button
             android:id="@+id/btnLoadMedicalRecord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Load Existing Record" />
+            android:minHeight="52dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#173B6C"
+            android:text="Load Existing Record"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/nimbus_roman" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Allergies"
+            android:textColor="#173B6C"
             android:layout_marginTop="16dp" />
 
         <EditText
@@ -52,12 +86,15 @@
             android:inputType="textCapSentences|textMultiLine"
             android:minLines="2"
             android:gravity="top"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Medical Conditions" />
+            android:text="Medical Conditions"
+            android:textColor="#173B6C" />
 
         <EditText
             android:id="@+id/etConditions"
@@ -67,12 +104,15 @@
             android:inputType="textCapSentences|textMultiLine"
             android:minLines="2"
             android:gravity="top"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Medications" />
+            android:text="Medications"
+            android:textColor="#173B6C" />
 
         <EditText
             android:id="@+id/etMedications"
@@ -82,12 +122,15 @@
             android:inputType="textCapSentences|textMultiLine"
             android:minLines="2"
             android:gravity="top"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Additional Notes" />
+            android:text="Additional Notes"
+            android:textColor="#173B6C" />
 
         <EditText
             android:id="@+id/etMedicalNotes"
@@ -97,19 +140,34 @@
             android:inputType="textCapSentences|textMultiLine"
             android:minLines="3"
             android:gravity="top"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:textColor="#222222"
+            android:textColorHint="#777777" />
 
         <Button
             android:id="@+id/btnSaveMedicalRecord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Medical Record" />
+            android:minHeight="52dp"
+            android:backgroundTint="#173B6C"
+            android:text="Save Medical Record"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/nimbus_roman" />
 
         <Button
             android:id="@+id/btnMedicalBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Back" />
+            android:minHeight="52dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#173B6C"
+            android:text="Back"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/nimbus_roman" />
 
     </LinearLayout>
 </ScrollView>
