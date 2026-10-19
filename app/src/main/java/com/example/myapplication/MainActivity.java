@@ -8,55 +8,43 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnStudentIdentification;
-    private Button btnRegisterStudent;
-    private Button btnManageMedicalRecord;
-    private Button btnRecordClinicVisit;
-    private Button btnViewStudentRecord;
-    private Button btnLogout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnStudentIdentification =
+        Button btnStudentIdentification =
                 findViewById(R.id.btnStudentIdentification);
-        btnRegisterStudent =
+        Button btnRegisterStudent =
                 findViewById(R.id.btnRegisterStudent);
-        btnManageMedicalRecord =
+        Button btnManageMedicalRecord =
                 findViewById(R.id.btnManageMedicalRecord);
-        btnRecordClinicVisit =
+        Button btnRecordClinicVisit =
                 findViewById(R.id.btnRecordClinicVisit);
-        btnViewStudentRecord =
+        Button btnViewStudentRecord =
                 findViewById(R.id.btnViewStudentRecord);
-        btnLogout = findViewById(R.id.btnLogout);
+        Button btnLogout = findViewById(R.id.btnLogout);
 
         btnStudentIdentification.setOnClickListener(v ->
-                startActivity(new Intent(
-                        MainActivity.this,
-                        StudentIdentificationActivity.class)));
+                openScreen(StudentIdentificationActivity.class));
 
         btnRegisterStudent.setOnClickListener(v ->
-                startActivity(new Intent(
-                        MainActivity.this,
-                        RegisterStudentActivity.class)));
+                openScreen(RegisterStudentActivity.class));
 
         btnManageMedicalRecord.setOnClickListener(v ->
-                startActivity(new Intent(
-                        MainActivity.this,
-                        ManageMedicalRecordActivity.class)));
+                openScreen(ManageMedicalRecordActivity.class));
 
         btnRecordClinicVisit.setOnClickListener(v ->
-                startActivity(new Intent(
-                        MainActivity.this,
-                        RecordClinicVisitActivity.class)));
+                openScreen(RecordClinicVisitActivity.class));
 
         btnViewStudentRecord.setOnClickListener(v ->
-                startActivity(new Intent(
-                        MainActivity.this,
-                        ViewStudentsActivity.class)));
+                openScreen(ViewStudentsActivity.class));
 
         btnLogout.setOnClickListener(v -> finish());
+    }
+
+    private void openScreen(Class<?> activityClass) {
+        Intent intent = new Intent(this, activityClass);
+        startActivity(intent);
     }
 }

@@ -1,4 +1,3 @@
-
 package com.example.myapplication;
 
 import android.database.Cursor;
@@ -23,7 +22,6 @@ public class ViewStudentsActivity extends AppCompatActivity {
         tvStudentCount = findViewById(R.id.tvStudentCount);
 
         Button btnBack = findViewById(R.id.btnBack);
-
         databaseHelper = new DatabaseHelper(this);
 
         btnBack.setOnClickListener(v -> finish());
@@ -43,62 +41,52 @@ public class ViewStudentsActivity extends AppCompatActivity {
         int count = 0;
 
         try (Cursor cursor = databaseHelper.getAllStudents()) {
-            if (cursor != null) {
-                int idIndex = cursor.getColumnIndex("student_id");
-                int firstNameIndex = cursor.getColumnIndex("first_name");
-                int lastNameIndex = cursor.getColumnIndex("last_name");
-                int gradeIndex = cursor.getColumnIndex("grade");
-                int sectionIndex = cursor.getColumnIndex("section");
-                int ageIndex = cursor.getColumnIndex("age");
-                int contactIndex = cursor.getColumnIndex("contact");
+            int idIndex = cursor.getColumnIndex("student_id");
+            int firstNameIndex = cursor.getColumnIndex("first_name");
+            int lastNameIndex = cursor.getColumnIndex("last_name");
+            int gradeIndex = cursor.getColumnIndex("grade");
+            int sectionIndex = cursor.getColumnIndex("section");
+            int ageIndex = cursor.getColumnIndex("age");
+            int contactIndex = cursor.getColumnIndex("contact");
 
-                while (cursor.moveToNext()) {
-                    String studentId = getValue(cursor, idIndex);
-                    String firstName = getValue(cursor, firstNameIndex);
-                    String lastName = getValue(cursor, lastNameIndex);
-                    String grade = getValue(cursor, gradeIndex);
-                    String section = getValue(cursor, sectionIndex);
-                    String age = getValue(cursor, ageIndex);
-                    String contact = getValue(cursor, contactIndex);
+            while (cursor.moveToNext()) {
+                String studentId = getValue(cursor, idIndex);
+                String firstName = getValue(cursor, firstNameIndex);
+                String lastName = getValue(cursor, lastNameIndex);
+                String grade = getValue(cursor, gradeIndex);
+                String section = getValue(cursor, sectionIndex);
+                String age = getValue(cursor, ageIndex);
+                String contact = getValue(cursor, contactIndex);
 
-                    String fullName = (firstName + " " + lastName).trim();
-
-                    if (fullName.isEmpty()) {
-                        fullName = "Name not provided";
-                    }
-
-                    String gradeSection = (grade + " " + section).trim();
-
-                    if (gradeSection.isEmpty()) {
-                        gradeSection = "Not provided";
-                    }
-
-                    if (age.isEmpty()) {
-                        age = "Not provided";
-                    }
-
-                    if (contact.isEmpty()) {
-                        contact = "Not provided";
-                    }
-
-                    count++;
-
-                    records.append("Student ").append(count).append("\n")
-                            .append("ID: ").append(studentId).append("\n")
-                            .append("Name: ").append(fullName).append("\n")
-                            .append("Grade & Section: ")
-                            .append(gradeSection).append("\n")
-                            .append("Age: ").append(age).append("\n")
-                            .append("Contact: ").append(contact).append("\n")
-                            .append("------------------------------\n\n");
+                String fullName = (firstName + " " + lastName).trim();
+                if (fullName.isEmpty()) {
+                    fullName = "Name not provided";
                 }
+
+                String gradeSection = (grade + " " + section).trim();
+                if (gradeSection.isEmpty()) {
+                    gradeSection = "Not provided";
+                }
+
+                if (age.isEmpty()) {
+                    age = "Not provided";
+                }
+
+                if (contact.isEmpty()) {
+                    contact = "Not provided";
+                }
+
+                count++;
+
+                records.append("Student ").append(count).append("\n")
+                        .append("ID: ").append(studentId).append("\n")
+                        .append("Name: ").append(fullName).append("\n")
+                        .append("Grade & Section: ")
+                        .append(gradeSection).append("\n")
+                        .append("Age: ").append(age).append("\n")
+                        .append("Contact: ").append(contact).append("\n")
+                        .append("------------------------------\n\n");
             }
-        } catch (Exception e) {
-            tvStudentCount.setText("Unable to load students");
-            tvStudentList.setText(
-                    "There was a problem loading student records.\n\n"
-                            + e.getMessage());
-            return;
         }
 
         tvStudentCount.setText("Total students: " + count);
@@ -115,7 +103,8 @@ public class ViewStudentsActivity extends AppCompatActivity {
             return "";
         }
 
-        return cursor.getString(columnIndex);
+        String value = cursor.getString(columnIndex);
+        return value == null ? "" : value;
     }
 
     @Override
@@ -123,7 +112,6 @@ public class ViewStudentsActivity extends AppCompatActivity {
         if (databaseHelper != null) {
             databaseHelper.close();
         }
-
         super.onDestroy();
     }
 }

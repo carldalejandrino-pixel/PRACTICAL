@@ -55,13 +55,15 @@ public class RecordClinicVisitActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
 
-        updateDateAndTimeFields();
-
         etVisitDate.setFocusable(false);
+        etVisitDate.setClickable(true);
         etVisitDate.setOnClickListener(v -> showDatePicker());
 
         etVisitTime.setFocusable(false);
+        etVisitTime.setClickable(true);
         etVisitTime.setOnClickListener(v -> showTimePicker());
+
+        updateDateAndTimeFields();
 
         btnLoadHistory.setOnClickListener(v -> loadVisitHistory());
         btnSaveVisit.setOnClickListener(v -> saveVisit());
@@ -113,6 +115,7 @@ public class RecordClinicVisitActivity extends AppCompatActivity {
 
         if (studentId.isEmpty()) {
             etStudentId.setError("Enter a student ID");
+            etStudentId.requestFocus();
             return;
         }
 
@@ -136,12 +139,17 @@ public class RecordClinicVisitActivity extends AppCompatActivity {
         if (!temperature.isEmpty()) {
             try {
                 float value = Float.parseFloat(temperature);
-                if (value < 25 || value > 45) {
-                    etTemperature.setError("Enter a valid temperature in °C");
+
+                if (!Float.isFinite(value) || value < 25 || value > 45) {
+                    etTemperature.setError(
+                            "Enter a valid temperature in °C");
+                    etTemperature.requestFocus();
                     return;
                 }
             } catch (NumberFormatException e) {
-                etTemperature.setError("Enter temperature as a number, e.g. 36.5");
+                etTemperature.setError(
+                        "Enter temperature as a number, e.g. 36.5");
+                etTemperature.requestFocus();
                 return;
             }
         }
@@ -171,6 +179,7 @@ public class RecordClinicVisitActivity extends AppCompatActivity {
 
         if (studentId.isEmpty()) {
             etStudentId.setError("Enter a student ID");
+            etStudentId.requestFocus();
             return;
         }
 
@@ -199,10 +208,9 @@ public class RecordClinicVisitActivity extends AppCompatActivity {
                     String notes = cursor.getString(
                             cursor.getColumnIndexOrThrow("notes"));
 
-                    history.append("Date: ").append(date)
+                    history.append("Date: ").append(showValue(date))
                             .append("\nTime: ")
-                            .append(time == null || time.isEmpty()
-                                    ? "Not recorded" : time)
+                            .append(showValue(time))
                             .append("\nSymptoms: ").append(showValue(symptoms))
                             .append("\nTemperature: ")
                             .append(temperature == null || temperature.isEmpty()

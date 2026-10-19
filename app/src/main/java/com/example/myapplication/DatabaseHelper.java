@@ -5,37 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "school_clinic.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String TABLE_STUDENTS = "students";
-    private static final String COL_STUDENT_ID = "student_id";
-    private static final String COL_FIRST_NAME = "first_name";
-    private static final String COL_LAST_NAME = "last_name";
-    private static final String COL_GRADE = "grade";
-    private static final String COL_SECTION = "section";
-    private static final String COL_GENDER = "gender";
-    private static final String COL_AGE = "age";
-    private static final String COL_CONTACT = "contact";
-
-    private static final String TABLE_MEDICAL = "medical_records";
-    private static final String COL_ALLERGIES = "allergies";
-    private static final String COL_CONDITIONS = "medical_conditions";
-    private static final String COL_MEDICATIONS = "medications";
-    private static final String COL_BLOOD_TYPE = "blood_type";
-    private static final String COL_MEDICAL_NOTES = "notes";
-
-    private static final String TABLE_VISITS = "clinic_visits";
-    private static final String COL_VISIT_ID = "visit_id";
-    private static final String COL_VISIT_DATE = "visit_date";
-    private static final String COL_VISIT_TIME = "visit_time";
-    private static final String COL_SYMPTOMS = "symptoms";
-    private static final String COL_TEMPERATURE = "temperature";
-    private static final String COL_TREATMENT = "treatment";
-    private static final String COL_VISIT_NOTES = "notes";
+    private static final String TABLE_MEDICAL_RECORDS = "medical_records";
+    private static final String TABLE_CLINIC_VISITS = "clinic_visits";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -43,69 +22,105 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_STUDENTS + " (" +
-                COL_STUDENT_ID + " TEXT PRIMARY KEY, " +
-                COL_FIRST_NAME + " TEXT NOT NULL, " +
-                COL_LAST_NAME + " TEXT NOT NULL, " +
-                COL_GRADE + " TEXT, " +
-                COL_SECTION + " TEXT, " +
-                COL_GENDER + " TEXT, " +
-                COL_AGE + " TEXT, " +
-                COL_CONTACT + " TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS students (" +
+                "student_id TEXT PRIMARY KEY, " +
+                "full_name TEXT, " +
+                "grade_section TEXT, " +
+                "first_name TEXT, " +
+                "last_name TEXT NOT NULL DEFAULT '', " +
+                "grade TEXT, " +
+                "section TEXT, " +
+                "gender TEXT, " +
+                "age TEXT, " +
+                "contact TEXT)");
 
-        createMedicalTable(db);
-        createVisitsTable(db);
-    }
+        db.execSQL("CREATE TABLE IF NOT EXISTS medical_records (" +
+                "student_id TEXT PRIMARY KEY, " +
+                "allergies TEXT, " +
+                "medical_conditions TEXT, " +
+                "medications TEXT, " +
+                "blood_type TEXT, " +
+                "notes TEXT)");
 
-    private void createMedicalTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MEDICAL + " (" +
-                COL_STUDENT_ID + " TEXT PRIMARY KEY, " +
-                COL_ALLERGIES + " TEXT, " +
-                COL_CONDITIONS + " TEXT, " +
-                COL_MEDICATIONS + " TEXT, " +
-                COL_BLOOD_TYPE + " TEXT, " +
-                COL_MEDICAL_NOTES + " TEXT, " +
-                "FOREIGN KEY(" + COL_STUDENT_ID + ") REFERENCES " +
-                TABLE_STUDENTS + "(" + COL_STUDENT_ID + "))");
-    }
-
-    private void createVisitsTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_VISITS + " (" +
-                COL_VISIT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COL_STUDENT_ID + " TEXT NOT NULL, " +
-                COL_VISIT_DATE + " TEXT NOT NULL, " +
-                COL_VISIT_TIME + " TEXT NOT NULL DEFAULT '', " +
-                COL_SYMPTOMS + " TEXT, " +
-                COL_TEMPERATURE + " TEXT, " +
-                COL_TREATMENT + " TEXT, " +
-                COL_VISIT_NOTES + " TEXT, " +
-                "FOREIGN KEY(" + COL_STUDENT_ID + ") REFERENCES " +
-                TABLE_STUDENTS + "(" + COL_STUDENT_ID + "))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS clinic_visits (" +
+                "visit_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "student_id TEXT, " +
+                "visit_date TEXT, " +
+                "visit_time TEXT DEFAULT '', " +
+                "symptoms TEXT, " +
+                "temperature TEXT, " +
+                "treatment TEXT, " +
+                "notes TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
-            createMedicalTable(db);
+            db.execSQL("CREATE TABLE IF NOT EXISTS medical_records (" +
+                    "student_id TEXT PRIMARY KEY, " +
+                    "allergies TEXT, " +
+                    "medical_conditions TEXT, " +
+                    "medications TEXT, " +
+                    "blood_type TEXT, " +
+                    "notes TEXT)");
         }
 
         if (oldVersion < 3) {
-            createVisitsTable(db);
+            db.execSQL("CREATE TABLE IF NOT EXISTS clinic_visits (" +
+                    "visit_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "student_id TEXT, " +
+                    "visit_date TEXT, " +
+                    "visit_time TEXT DEFAULT '', " +
+                    "symptoms TEXT, " +
+                    "temperature TEXT, " +
+                    "treatment TEXT, " +
+                    "notes TEXT)");
         }
 
         if (oldVersion < 4) {
-            if (tableExists(db, TABLE_VISITS) &&
-                    !columnExists(db, TABLE_VISITS, COL_VISIT_TIME)) {
-                db.execSQL("ALTER TABLE " + TABLE_VISITS +
-                        " ADD COLUMN " + COL_VISIT_TIME +
-                        " TEXT NOT NULL DEFAULT ''");
+            if (tableExists(db, TABLE_CLINIC_VISITS)
+                    && !columnExists(db, TABLE_CLINIC_VISITS, "visit_time")) {
+                db.execSQL("ALTER TABLE clinic_visits " +
+                        "ADD COLUMN visit_time TEXT DEFAULT ''");
+            }
+        }
+
+        if (oldVersion < 5) {
+            if (tableExists(db, TABLE_STUDENTS)) {
+                addColumnIfMissing(db, "first_name", "TEXT");
+                addColumnIfMissing(db, "last_name",
+                        "TEXT NOT NULL DEFAULT ''");
+                addColumnIfMissing(db, "grade", "TEXT");
+                addColumnIfMissing(db, "section", "TEXT");
+                addColumnIfMissing(db, "gender", "TEXT");
+
+                if (columnExists(db, TABLE_STUDENTS, "full_name")) {
+                    db.execSQL(
+                            "UPDATE students SET first_name = " +
+                                    "CASE WHEN first_name IS NULL OR first_name = '' " +
+                                    "THEN TRIM(full_name) ELSE first_name END " +
+                                    "WHERE full_name IS NOT NULL");
+
+                    db.execSQL(
+                            "UPDATE students SET last_name = '' " +
+                                    "WHERE last_name IS NULL");
+                }
+
+                if (columnExists(db, TABLE_STUDENTS, "grade_section")) {
+                    db.execSQL(
+                            "UPDATE students SET grade = " +
+                                    "CASE WHEN grade IS NULL OR grade = '' " +
+                                    "THEN grade_section ELSE grade END " +
+                                    "WHERE grade_section IS NOT NULL");
+                }
             }
         }
     }
 
     private boolean tableExists(SQLiteDatabase db, String tableName) {
         try (Cursor cursor = db.rawQuery(
-                "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+                "SELECT name FROM sqlite_master " +
+                        "WHERE type='table' AND name=?",
                 new String[]{tableName})) {
             return cursor.moveToFirst();
         }
@@ -113,21 +128,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private boolean columnExists(
             SQLiteDatabase db, String tableName, String columnName) {
-
         try (Cursor cursor = db.rawQuery(
                 "PRAGMA table_info(" + tableName + ")", null)) {
-
-            int nameIndex = cursor.getColumnIndex("name");
-
             while (cursor.moveToNext()) {
-                if (nameIndex >= 0 &&
-                        columnName.equals(cursor.getString(nameIndex))) {
+                if (columnName.equals(cursor.getString(
+                        cursor.getColumnIndexOrThrow("name")))) {
                     return true;
                 }
             }
         }
-
         return false;
+    }
+
+    private void addColumnIfMissing(
+            SQLiteDatabase db, String columnName, String definition) {
+        if (!columnExists(db, TABLE_STUDENTS, columnName)) {
+            db.execSQL("ALTER TABLE students ADD COLUMN " +
+                    columnName + " " + definition);
+        }
     }
 
     public boolean addStudent(
@@ -140,22 +158,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String age,
             String contact) {
 
-        SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put("student_id", studentId);
+        values.put("first_name", firstName);
+        values.put("last_name", lastName);
+        values.put("full_name", (firstName + " " + lastName).trim());
+        values.put("grade", grade);
+        values.put("section", section);
+        values.put("grade_section",
+                (grade + " " + section).trim());
+        values.put("gender", gender);
+        values.put("age", age);
+        values.put("contact", contact);
 
-        values.put(COL_STUDENT_ID, studentId);
-        values.put(COL_FIRST_NAME, firstName);
-        values.put(COL_LAST_NAME, lastName);
-        values.put(COL_GRADE, grade);
-        values.put(COL_SECTION, section);
-        values.put(COL_GENDER, gender);
-        values.put(COL_AGE, age);
-        values.put(COL_CONTACT, contact);
-
-        return db.insert(TABLE_STUDENTS, null, values) != -1;
+        try {
+            long result = getWritableDatabase().insertOrThrow(
+                    TABLE_STUDENTS, null, values);
+            return result != -1;
+        } catch (android.database.sqlite.SQLiteException e) {
+            Log.e("StudentRegistration", "Could not register student", e);
+            throw e;
+        }
     }
 
-    // Compatibility method for the five arguments used by your registration screen.
     public boolean addStudent(
             String studentId,
             String studentName,
@@ -163,135 +188,86 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String grade,
             String section) {
 
+        String[] parts = studentName.trim().split("\\s+", 2);
+        String firstName = parts[0];
+        String lastName = parts.length > 1 ? parts[1] : "";
+
         return addStudent(
-                studentId,
-                studentName,
-                "",
-                grade,
-                section,
-                "",
-                String.valueOf(age),
-                ""
-        );
+                studentId, firstName, lastName,
+                grade, section, "", String.valueOf(age), "");
     }
 
     public boolean studentExists(String studentId) {
-        try (Cursor cursor = getReadableDatabase().query(
-                TABLE_STUDENTS,
-                new String[]{COL_STUDENT_ID},
-                COL_STUDENT_ID + " = ?",
-                new String[]{studentId},
-                null, null, null)) {
-
+        try (Cursor cursor = getReadableDatabase().rawQuery(
+                "SELECT student_id FROM students WHERE student_id = ?",
+                new String[]{studentId})) {
             return cursor.moveToFirst();
         }
     }
 
     public Cursor getAllStudents() {
-        SQLiteDatabase db = getReadableDatabase();
-
-        // Sort by the primary key instead of a possibly missing last_name column.
-        return db.query(
-                TABLE_STUDENTS,
-                null,
-                null,
-                null,
-                null,
-                null,
-                COL_STUDENT_ID + " ASC"
-        );
+        return getReadableDatabase().rawQuery(
+                "SELECT * FROM students ORDER BY last_name, first_name",
+                null);
     }
 
     public Cursor getMedicalRecord(String studentId) {
-        return getReadableDatabase().query(
-                TABLE_MEDICAL,
-                null,
-                COL_STUDENT_ID + " = ?",
-                new String[]{studentId},
-                null, null, null
-        );
+        return getReadableDatabase().rawQuery(
+                "SELECT * FROM medical_records WHERE student_id = ?",
+                new String[]{studentId});
     }
 
     public boolean saveMedicalRecord(
-            String studentId,
-            String allergies,
-            String conditions,
-            String medications,
-            String bloodType,
-            String notes) {
+            String studentId, String allergies, String conditions,
+            String medications, String bloodType, String notes) {
 
         ContentValues values = new ContentValues();
-        values.put(COL_STUDENT_ID, studentId);
-        values.put(COL_ALLERGIES, allergies);
-        values.put(COL_CONDITIONS, conditions);
-        values.put(COL_MEDICATIONS, medications);
-        values.put(COL_BLOOD_TYPE, bloodType);
-        values.put(COL_MEDICAL_NOTES, notes);
+        values.put("student_id", studentId);
+        values.put("allergies", allergies);
+        values.put("medical_conditions", conditions);
+        values.put("medications", medications);
+        values.put("blood_type", bloodType);
+        values.put("notes", notes);
 
         return getWritableDatabase().insertWithOnConflict(
-                TABLE_MEDICAL,
-                null,
-                values,
-                SQLiteDatabase.CONFLICT_REPLACE
-        ) != -1;
+                TABLE_MEDICAL_RECORDS, null, values,
+                SQLiteDatabase.CONFLICT_REPLACE) != -1;
     }
 
     public boolean saveMedicalRecord(
-            String studentId,
-            String allergies,
-            String conditions,
-            String medications,
-            String notes) {
-
+            String studentId, String allergies, String conditions,
+            String medications, String notes) {
         return saveMedicalRecord(
-                studentId, allergies, conditions, medications, "", notes
-        );
+                studentId, allergies, conditions, medications, "", notes);
     }
 
     public boolean addClinicVisit(
-            String studentId,
-            String visitDate,
-            String visitTime,
-            String symptoms,
-            String temperature,
-            String treatment,
-            String notes) {
+            String studentId, String date, String time, String symptoms,
+            String temperature, String treatment, String notes) {
 
         ContentValues values = new ContentValues();
-        values.put(COL_STUDENT_ID, studentId);
-        values.put(COL_VISIT_DATE, visitDate);
-        values.put(COL_VISIT_TIME, visitTime);
-        values.put(COL_SYMPTOMS, symptoms);
-        values.put(COL_TEMPERATURE, temperature);
-        values.put(COL_TREATMENT, treatment);
-        values.put(COL_VISIT_NOTES, notes);
+        values.put("student_id", studentId);
+        values.put("visit_date", date);
+        values.put("visit_time", time);
+        values.put("symptoms", symptoms);
+        values.put("temperature", temperature);
+        values.put("treatment", treatment);
+        values.put("notes", notes);
 
         return getWritableDatabase().insert(
-                TABLE_VISITS, null, values
-        ) != -1;
+                TABLE_CLINIC_VISITS, null, values) != -1;
     }
 
     public Cursor getClinicVisits(String studentId) {
-        return getReadableDatabase().query(
-                TABLE_VISITS,
-                null,
-                COL_STUDENT_ID + " = ?",
-                new String[]{studentId},
-                null,
-                null,
-                COL_VISIT_DATE + " DESC, " + COL_VISIT_TIME + " DESC"
-        );
+        return getReadableDatabase().rawQuery(
+                "SELECT * FROM clinic_visits " +
+                        "WHERE student_id = ? ORDER BY visit_id DESC",
+                new String[]{studentId});
     }
 
     public Cursor getAllClinicVisits() {
-        return getReadableDatabase().query(
-                TABLE_VISITS,
-                null,
-                null,
-                null,
-                null,
-                null,
-                COL_VISIT_DATE + " DESC, " + COL_VISIT_TIME + " DESC"
-        );
+        return getReadableDatabase().rawQuery(
+                "SELECT * FROM clinic_visits ORDER BY visit_id DESC",
+                null);
     }
 }

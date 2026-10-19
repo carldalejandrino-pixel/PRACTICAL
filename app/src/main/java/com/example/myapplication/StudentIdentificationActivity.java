@@ -75,39 +75,42 @@ public class StudentIdentificationActivity extends AppCompatActivity {
                         cursor.getColumnIndexOrThrow("section"));
                 String gender = cursor.getString(
                         cursor.getColumnIndexOrThrow("gender"));
-                int age = cursor.getInt(
+                String age = cursor.getString(
                         cursor.getColumnIndexOrThrow("age"));
                 String contact = cursor.getString(
                         cursor.getColumnIndexOrThrow("contact"));
 
-                String fullName = (firstName + " " + lastName).trim();
+                String fullName = ((firstName == null ? "" : firstName)
+                        + " " + (lastName == null ? "" : lastName)).trim();
 
                 tvStudentInfo.setText(
                         "STUDENT INFORMATION\n\n" +
-                                "Student ID: " + id + "\n\n" +
-                                "Full Name: " + fullName + "\n\n" +
-                                "Grade: " + grade + "\n\n" +
-                                "Section: " + section + "\n\n" +
-                                "Gender: " + (gender == null || gender.isEmpty()
-                                ? "Not provided" : gender) + "\n\n" +
-                                "Age: " + age + "\n\n" +
-                                "Contact: " + (contact == null || contact.isEmpty()
-                                ? "Not provided" : contact)
+                                "Student ID: " + showValue(id) + "\n\n" +
+                                "Full Name: " + showValue(fullName) + "\n\n" +
+                                "Grade: " + showValue(grade) + "\n\n" +
+                                "Section: " + showValue(section) + "\n\n" +
+                                "Gender: " + showValue(gender) + "\n\n" +
+                                "Age: " + showValue(age) + "\n\n" +
+                                "Contact: " + showValue(contact)
                 );
             } else {
                 tvStudentInfo.setText("No student found.");
-                Toast.makeText(
-                        this,
-                        "Student ID not found.",
-                        Toast.LENGTH_SHORT
-                ).show();
+                Toast.makeText(this, "Student ID not found.",
+                        Toast.LENGTH_SHORT).show();
             }
-        } catch (Exception e) {
-            Toast.makeText(
-                    this,
-                    "Error searching for student: " + e.getMessage(),
-                    Toast.LENGTH_LONG
-            ).show();
         }
+    }
+
+    private String showValue(String value) {
+        return value == null || value.trim().isEmpty()
+                ? "Not provided" : value;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (databaseHelper != null) {
+            databaseHelper.close();
+        }
+        super.onDestroy();
     }
 }
